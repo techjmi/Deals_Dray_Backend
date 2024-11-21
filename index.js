@@ -18,6 +18,6 @@ app.use(express.urlencoded({ extended: true }))
 app.use('api/auth',userRoutes)
 ConnectToDB()
 app.use(cors({}))
-app.listen(()=>{
+app.listen(PORT,()=>{
     console.log(`The server is running on PORT ${PORT}`)
 })
