@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 
 //routes
-app.use('api/auth',userRoutes)
+app.use('/api/auth',userRoutes)
 ConnectToDB()
 app.use(cors({}))
 app.listen(PORT,()=>{
