@@ -90,7 +90,7 @@ const SignIn = async (req, res) => {
       },
       process.env.JWT_SECRET
     );
-console.log('the login token', token)
+// console.log('the login token', token)
     // Prepare user data to send back (excluding password)
     const { password: _, ...rest } = user._doc;
 
@@ -98,10 +98,10 @@ console.log('the login token', token)
     res
       .cookie("deal_token", token, {
         httpOnly: true,
-        // secure: false,
-        // sameSite: "none",
-        // path: "/",
-        // secure: process.env.NODE_ENV === 'production',
+        secure: false,
+        sameSite: "none",
+        path: "/",
+        secure: process.env.NODE_ENV === 'production',
       })
       .json({
         message: "Signin successful",

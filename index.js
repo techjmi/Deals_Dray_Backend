@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.urlencoded({ extended: true }))
 app.use(cors({
     origin: "https://deals-front.onrender.com",
+    // origin:'http://localhost:5173',
     credentials: true,
 }));
 
