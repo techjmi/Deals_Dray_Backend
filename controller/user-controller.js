@@ -2,19 +2,36 @@ const Deal_User = require("../model/user-model");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-// SignUp Logic
+// Logic for user signup
 const SignUp = async (req, res) => {
   const { fullName, email, password, profile_pic, userName } = req.body;
-  console.log(email); // Debugging log
+
   try {
+    // Check for empty fields
     if (!fullName || !email || !password || !userName) {
       return res.status(400).json({ message: "All fields are required" });
     }
 
+    // Validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ message: "Please provide a valid email address" });
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return res.status(400).json({ message: "Password must be at least 6 characters long" });
+    }
+
     // Check if email already exists
-    const isExist = await Deal_User.findOne({ email });
-    if (isExist) {
+    const emailExist = await Deal_User.findOne({ email });
+    if (emailExist) {
       return res.status(400).json({ message: "Email already exists" });
+    }
+
+    // Check if username already exists
+    const userNameExist = await Deal_User.findOne({ userName });
+    if (userNameExist) {
+      return res.status(400).json({ message: "Username already exists" });
     }
 
     // Hash the password
@@ -23,7 +40,7 @@ const SignUp = async (req, res) => {
     // Create new user
     const newUser = new Deal_User({
       fullName,
-      email,  // Store email
+      email,
       userName,
       password: hashedPassword,
       profile_pic,
@@ -34,21 +51,24 @@ const SignUp = async (req, res) => {
 
     res.status(201).json({ message: "Signup successful" });
   } catch (error) {
-    console.error(error);
+    console.error('Error in signup:', error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-// SignIn Logic
+// Logic for user sign-in
 const SignIn = async (req, res) => {
   const { userName, password } = req.body;
+
   try {
     // Validate user input
     if (!userName || !password) {
-      return res.status(400).json({ message: "Please fill username and password!" });
+      return res
+        .status(400)
+        .json({ message: "Please fill username and password!" });
     }
 
-    // Find user by username (change to email if needed)
+    // Find user by username
     const user = await Deal_User.findOne({ userName });
     if (!user) {
       return res.status(404).json({ message: "Wrong username or password" });
@@ -62,23 +82,41 @@ const SignIn = async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { _id: user._id, email: user.email, fullName: user.fullName, profile_pic: user.profile_pic },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" } // Optional expiration for the token
+      {
+        _id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+        profile_pic: user.profile_pic,
+      },
+      process.env.JWT_SECRET
     );
-
+console.log('the login token', token)
     // Prepare user data to send back (excluding password)
     const { password: _, ...rest } = user._doc;
 
     // Set JWT in cookie
-    res.cookie("deal_token", token, { httpOnly: true, secure: true }).json({
-      message: "Signin successful",
-      user: rest,
-    });
+    res
+      .cookie("deal_token", token, {
+        httpOnly: true,
+        // secure: false,
+        // sameSite: "none",
+        // path: "/",
+        // secure: process.env.NODE_ENV === 'production',
+      })
+      .json({
+        message: "Signin successful",
+        user: rest,
+      });
   } catch (error) {
-    console.error(error);
+    console.error('Error in signin:', error);
     res.status(500).json({ message: "Server error" });
   }
 };
 
-module.exports = { SignIn, SignUp };
+// Logic for user logout
+const handleLogout = (req, res) => {
+  res.clearCookie('deal_token'); 
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
+module.exports = { SignIn, SignUp, handleLogout };

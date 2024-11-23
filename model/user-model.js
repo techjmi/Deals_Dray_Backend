@@ -37,3 +37,4 @@ const user_schema = mongoose.Schema({
 
 const Deal_User = mongoose.model('Deal_User', user_schema);
 module.exports= Deal_User
+ 

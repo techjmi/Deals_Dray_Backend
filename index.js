@@ -1,8 +1,8 @@
 const express= require('express')
 require('dotenv').config()
 const app= express()
-const cors= require('cors')
 const cookieParser= require('cookie-parser')
+const cors= require('cors')
 const ConnectToDB = require('./database/db')
 const userRoutes=require('./routes/user-routes')
 const EmpRoutes= require('./routes/employe-routes')
@@ -10,16 +10,23 @@ const PORT=process.env.PORT||8000
 
 
 
-//middleware
+//middleware  
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
+app.use(cors({
+    origin: "https://deals-front.onrender.com",
+    credentials: true,
+}));
 
-//routes
-app.use('/api/auth',userRoutes)
-app.use('/api/empolyee',EmpRoutes)
 ConnectToDB()
-app.use(cors({}))
+//routes
+
+app.use('/api/auth',userRoutes)
+app.use('/api/employee',EmpRoutes)
+
+
 app.listen(PORT,()=>{
     console.log(`The server is running on PORT ${PORT}`)
 })

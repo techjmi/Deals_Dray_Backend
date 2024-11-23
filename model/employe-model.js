@@ -1,42 +1,52 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
-const EmpSchema = mongoose.Schema({
-  fullName: {
-    type: String,
-    required: [true, "Full name is required"],
-    minlength: 3,
-    trim: true,
+const EmpSchema = mongoose.Schema(
+  {
+    fullName: {
+      type: String,
+      required: [true, "Full name is required"],
+      minlength: 3,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: [true, "Email is required"],
+      trim: true,
+      unique: true,
+      match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please provide a valid email address"],
+    },
+    MobileNo: {
+      type: String,
+      required: [true, "Mobile number is required"],
+      match: [/^\d{10}$/, "Please provide a valid 10-digit mobile number"],
+    },
+    Designation: {
+      type: String,
+      required: [true, "Designation is required"],
+    },
+    Gender: {
+      type: String,
+      required: [true, "Gender is required"],
+      enum: ['Male', 'Female', 'Other'],
+    },
+    course: {
+      type: [String],
+      required: [true, "At least one course must be selected"],
+    },
+    image: {
+      type: String,
+      default: "https://cdn-icons-png.flaticon.com/512/21/21104.png",
+    },
+    empID: {
+      type: Number, // Add this to store the auto-incremented ID
+    },
   },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    trim: true,
-    unique: true,
-    match: [/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please provide a valid email address"],
-  },
-  MobileNo: {
-    type: String,
-    required: [true, "Mobile number is required"],
-    match: [/^\d{10}$/, "Please provide a valid 10-digit mobile number"],
-  },
-  Designation: {
-    type: String,
-    required: [true, "Designation is required"],
-  },
-  Gender: {
-    type: String,
-    required: [true, "Gender is required"],
-    enum: ['Male', 'Female', 'Other'], 
-  },
-  course: {
-    type: [String],
-    required: [true, "At least one course must be selected"],
-  },
-  image: {
-    type: String,
-    default: "https://cdn-icons-png.flaticon.com/512/21/21104.png", 
-  },
-}, { timestamps: true });
+  { timestamps: true }
+);
+
+// Apply AutoIncrement Plugin
+EmpSchema.plugin(AutoIncrement, { inc_field: 'empID' });
 
 const Employee = mongoose.model('Employee', EmpSchema);
 module.exports = Employee;

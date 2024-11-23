@@ -1,6 +1,11 @@
 const express= require('express')
-const { CreateEmp } = require('../controller/employe-controller')
+const { CreateEmp, GetAllEmployees, EditEmployee, FetchById, delete_emp } = require('../controller/employe-controller')
+const verifyToken = require('../utils/auth')
 const router= express.Router()
-router.post('/create', CreateEmp)
+router.post('/create', verifyToken, CreateEmp)
+router.get('/emp_list',verifyToken, GetAllEmployees)
+router.get('/employee/:id',verifyToken, FetchById)
+router.put('/emp_edit/:id',verifyToken, EditEmployee)
+router.delete('/emp_delete/:id', delete_emp)
 // router.post('/login', SignUp)
 module.exports= router
