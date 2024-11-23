@@ -115,7 +115,12 @@ const SignIn = async (req, res) => {
 
 // Logic for user logout
 const handleLogout = (req, res) => {
-  res.clearCookie('deal_token'); 
+  // res.clearCookie('deal_token'); 
+  console.log('logout called')
+  res.clearCookie("deal_token",{
+    path: "/",
+  })
+  
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
