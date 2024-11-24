@@ -98,9 +98,9 @@ const SignIn = async (req, res) => {
     res
       .cookie("deal_token", token, {
         httpOnly: true,
-        // secure: true,
+        secure: false,
         sameSite: "none",
-        // path: "/",
+        path: "/",
         secure: process.env.NODE_ENV === 'production',
         // domain: 'deals-dray-backend.onrender.com'
       })
