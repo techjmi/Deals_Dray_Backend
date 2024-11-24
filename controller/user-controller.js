@@ -98,11 +98,11 @@ const SignIn = async (req, res) => {
     res
       .cookie("deal_token", token, {
         httpOnly: true,
-        secure: true,
+        // secure: true,
         sameSite: "none",
-        path: "/",
+        // path: "/",
         secure: process.env.NODE_ENV === 'production',
-        domain: 'deals-dray-backend.onrender.com'
+        // domain: 'deals-dray-backend.onrender.com'
       })
       .json({
         message: "Signin successful",
@@ -119,7 +119,7 @@ const handleLogout = (req, res) => {
   // res.clearCookie('deal_token'); 
   console.log('logout called')
   res.clearCookie("deal_token",{
-    path: "/",
+    // path: "/",
   })
   
   res.status(200).json({ message: 'Logged out successfully' });
