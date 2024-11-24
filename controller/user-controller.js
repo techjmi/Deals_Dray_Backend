@@ -98,10 +98,11 @@ const SignIn = async (req, res) => {
     res
       .cookie("deal_token", token, {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none",
         path: "/",
-        secure: process.env.NODE_ENV === 'production',
+        // secure: process.env.NODE_ENV === 'production',
+        domain: 'deals-dray-backend.onrender.com'
       })
       .json({
         message: "Signin successful",
