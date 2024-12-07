@@ -3,7 +3,7 @@ const { CreateEmp, GetAllEmployees, EditEmployee, FetchById, delete_emp } = requ
 const verifyToken = require('../utils/auth')
 const router= express.Router()
 router.post('/create', verifyToken, CreateEmp)
-router.get('/emp_list',verifyToken, GetAllEmployees)
+router.get('/emp_list',GetAllEmployees)
 router.get('/employee/:id',verifyToken, FetchById)
 router.put('/emp_edit/:id',verifyToken, EditEmployee)
 router.delete('/emp_delete/:id', delete_emp)
