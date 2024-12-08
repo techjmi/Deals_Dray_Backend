@@ -121,4 +121,32 @@ const delete_emp = async (req, res) => {
   }
 };
 
+
+
+// const insertEmployees = async () => {
+//   const courses = ["BCA", "BTECH", "MCA", "BCOM"];
+// console.log("fun called")
+//   // Generate 20 employee objects
+//   const employees = Array.from({ length: 20 }, (_, i) => ({
+//     fullName: `Employee ${i + 11}`, // Adjust empID as required
+//     email: `employee${i + 11}@example.com`,
+//     MobileNo: `82870${Math.floor(10000 + Math.random() * 90000)}`, // Random 10-digit number
+//     Designation: i % 2 === 0 ? "Developer" : "Designer", // Alternate
+//     Gender: i % 3 === 0 ? "Male" : i % 3 === 1 ? "Female" : "Other", // Cycle genders
+//     course: [courses[i % courses.length]], // Cycle courses
+//     image: "https://cdn-icons-png.flaticon.com/512/21/21104.png", // Replace if needed
+//     empID: i + 11, // Auto-increment from 11
+//   }));
+
+//   try {
+//     // Insert data using insertMany
+//     const result = await Employee.insertMany(employees);
+//     console.log(`${result.length} employees inserted successfully`);
+//   } catch (error) {
+//     console.error("Error inserting employees:", error.message);
+//   }
+// };
+
+// module.exports = { insertEmployees };
+
 module.exports = { CreateEmp, GetAllEmployees, EditEmployee, FetchById, delete_emp };

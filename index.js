@@ -6,6 +6,7 @@ const cors= require('cors')
 const ConnectToDB = require('./database/db')
 const userRoutes=require('./routes/user-routes')
 const EmpRoutes= require('./routes/employe-routes')
+// const { insertEmployees } = require('./controller/employe-controller')
 const PORT=process.env.PORT||8000
 
 
@@ -28,7 +29,8 @@ ConnectToDB()
 app.use('/api/auth',userRoutes)
 app.use('/api/employee',EmpRoutes)
 
-
+// await insertEmployees()
 app.listen(PORT,()=>{
     console.log(`The server is running on PORT ${PORT}`)
 })
+// insertEmployees()
