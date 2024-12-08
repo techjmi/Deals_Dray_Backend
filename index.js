@@ -19,7 +19,7 @@ app.use(cors({
     // origin: "https://deals-front.onrender.com",
     origin:"*",
     // origin:'http://localhost:5173',
-    credentials: true,
+    // credentials: true,
 }));
 
 ConnectToDB()
