@@ -9,8 +9,6 @@ const EmpRoutes= require('./routes/employe-routes')
 // const { insertEmployees } = require('./controller/employe-controller')
 const PORT=process.env.PORT||8000
 
-
-
 //middleware  
 app.use(cookieParser());
 app.use(express.json());
@@ -22,10 +20,9 @@ app.use(cors({
     // origin:'http://localhost:5173',
     // credentials: true,
 }));
-
 ConnectToDB()
 //routes
-
+//shamim
 app.use('/api/auth',userRoutes)
 app.use('/api/employee',EmpRoutes)
 
